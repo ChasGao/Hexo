@@ -1,0 +1,95 @@
+---
+title: Log4j使用总结
+date: 2016-12-14 00:17:48
+tags:
+---
+Log4j是apache的一个开源项目，用来操作程序日志信息的框架。因便于管理，在工程中用来代替System.out打印语句。通过配置Log4j中的log4j.properties，可以指定日志信息的级别，输出地点，输出格式。
+一、LOG4J组成  
+ Log4j的有3大主要组件：
+      1，Logger:记录器，决定什么日志信息应该被输出、什么日志信息应该被忽略。
+      2，Appender:存放器，指定日志信息应该输出到什么地方，可以是控制台、文件、网络设备。
+      3，Layout:布局格式，指定日志信息的输出格式。
+   一个logger可以用多个appender，也就是说日志信息可以同时输出到多个设备上，每个appender对应一种layout。
+   所以,记录器用来整合日志信息，一个日志信息调整好以后，交给记录器的所有存放器，每一个存放器根据自己的格式输出日志信息。
+二、记录器组件Logger
+   1.根记录器 ： rootLogger
+     配置语法 ：log4j.rootLogger = [日志级别],存放器名1,存放器名2, ... ,存放器名N
+     日志级别 ：级别由高到低依次是：fatal、error、warn、info、debug。
+     项目中代码：
+          `log4j.rootLogger=INFO, stdout, logfile`
+      跟记录器的日子级别是info,所以info，warn,error,fatal均会被执行。stdout,logfile是存放器。
+   2. 在配置文件中配置Logger组件
+      可在Log4J配置文件中配置自己的Logger组件
+      项目中代码：
+      ```
+      log4j.logger.Application=INFO,Application
+      log4j.logger.Service=DEBUG,Service
+      log4j.logger.jdbc=INFO,jdbc
+      log4j.logger.Action=INFO,Action
+      ```
+      定义了application,service,jdbc,action四个自己的logger组件，并分别配置了级别和存放器。
+三、存放器组件Appender
+    配置语法 ：
+         log4j.appender.存放器名 = 存放类
+         log4j.appender.存放器名.option1 = value1
+     存放类：
+     	```
+ 		org.apache.log4j.ConsoleAppender         控制台输出
+        org.apache.log4j.FileAppender          文件
+        org.apache.log4j.DailyRollingFileAppender 每天产生一个日志文件
+        org.apache.log4j.RollingFileAppender  文件大小到达指定尺寸的时候产生一个新的文件
+        org.apache.log4j.WriterAppender   将日志信息以流格式发送到任意指定的地方
+        ```
+    项目中代码：
+		```      
+    	 Application记录器：
+         log4j.appender.Application=org.apache.log4j.RollingFileAppender
+         log4j.appender.Application.encoding=UTF-8
+         log4j.appender.Application.File=/imagesys/logs/ImageCreditServer/ApplicationLog.log
+         log4j.appender.Service.MaxFileSize=10240KB      
+       Service记录器：
+          log4j.appender.Service=org.apache.log4j.RollingFileAppender
+          log4j.appender.Service.encoding=UTF-8
+          log4j.appender.Service.File=/imagesys/logs/ImageCreditServer/ServiceLog.log
+          log4j.appender.Service.MaxFileSize=10240KB
+        jdbc记录器：
+          log4j.appender.jdbc=org.apache.log4j.RollingFileAppender
+          log4j.appender.jdbc.encoding=UTF-8
+          log4j.appender.jdbc.File=/imagesys/logs/ImageCreditServer/jdbcLog.log 
+          log4j.appender.jdbc.MaxFileSize=1024KB
+        action记录器：
+          log4j.appender.Action=org.apache.log4j.RollingFileAppender
+          log4j.appender.Action.encoding=UTF-8
+          log4j.appender.Action.File=/imagesys/logs/ImageCreditServer/ActionLog.log
+          log4j.appender.Action.MaxFileSize=10240KB
+          ```
+  分别制定了输出文件的存放类，编码方式，文件路径，文件大小。
+ 四、格式化组件Layout
+       配置语法 ：
+       log4j.appender.存放器名.layout = 格式类
+       log4j.appender.存放器名.layout.option1 = value1
+        … …
+       log4j.appender.存放器名.layout.optionN = valueN
+       输出格式类型：
+       . org.apache.log4j.HTMLLayout(以HTML表格形式布局);
+       . org.apache.log4j.PatternLayout(可以灵活地指定布局模式);
+       . org.apache.log4j.SimpleLayout(包含日志信息的级别和信息字符串);
+       . org.apache.log4j.TTCCLayout(包含日志产生的时间、线程和类别等信息);
+       打印参数如下：
+%m：输出代码中指定的消息。
+%p：输出优先级。
+%r：输入自应用启动到输出该log信息耗费的毫秒数。
+%c：输出所属的类目，通常就是所在类的全名。
+%t：输出产生该日志线程的线程名。
+%n：输出一个回车换行符。Windows平台为“\r\n”，UNIX为“\n”。
+%d：输出日志时间点的日期或时间，默认格式为ISO8601，推荐使用“%d{ABSOLUTE}”，这个输出格式形如：“2007-05-07 18:23:23,500”，符合中国人习惯。
+%l：输出日志事件发生的位置，包括类名、线程名，以及所在代码的行数。
+        项目中代码： 
+       ```
+       log4j.appender.Application.layout=org.apache.log4j.PatternLayout
+       log4j.appender.Application.layout.ConversionPattern=%d %p [%c] - %m%n
+       ```
+       以自定义的格式输出日志信息。 
+
+[来源](http://blog.csdn.net/zdwzzu2006/article/details/6102145)
+ 
