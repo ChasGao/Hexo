@@ -1,5 +1,5 @@
 ---
-title: My First Blog
+title: PreparingInterview
 date: 2016-12-15 12:44:05
 type: "tags"
 categories: 
@@ -11,11 +11,9 @@ categories:
 * 语言基础，String类可以被继承吗？为什么？
 * Final能修饰什么？（当时我说class、field、method，他说还有吗？然后又叫我不要在意，后来回想起，应该是问到我在参数里面要不要用final，接下来是因为匿名内部类）
 * 静态内部类、内部类、匿名内部类，为什么内部类会持有外部类的引用？持有的引用是this？还是其它？
-```	
-	静态内部类：使用static修饰的内部类
+	 静态内部类：使用static修饰的内部类
 	匿名内部类：使用new生成的内部类
 	因为内部类的产生依赖于外部类，持有的引用是类名.this。
-```
 * 跨进程间通信
 * Java中try catch finally的执行顺序
 	> 先执行try中代码发生异常执行catch中代码，最后一定会执行finally中代码
