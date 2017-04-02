@@ -23,7 +23,7 @@ categories:
 	> * 因为内部类的产生依赖于外部类，持有的引用是类名.this。
 * 跨进程间通信
 * Java中try catch finally的执行顺序
-	> 先执行try中代码发生异常执行catch中代码，然后执行finally中代码，再执行try或cathc里面的return。
+	> 先执行try中代码发生异常执行catch中代码，然后执行try里面的return语句，在return返回之前执行finally中代码，也就是finally在return执行后返回前执行，如果catch、finally中有return，则会按照执行顺序覆盖前面的return语句里的值。
 * switch是否能作用在byte上，是否能作用在long上，是否能作用在String上？
 	> switch支持使用char、byte、short、int类型，不支持long类型，String支持在java1.7引入
 * 介绍一下你的项目
