@@ -1,0 +1,7 @@
+首先确认，mysql中的delete语句是支持别名的；
+
+在自己书写delete语法时候，语句如下：
+
+delete from tableA a where a.c_pk_id = '123'
+
+但是会报一个别名使用错误，如下：
