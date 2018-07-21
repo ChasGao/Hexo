@@ -1,3 +1,12 @@
+---
+title: mysql中delete的语法别名问题
+date: 2018-6-10 20:44:05
+tags: 
+	- mysql
+categories: 
+	- mysql	
+---
+
 首先确认，mysql中的delete语句是支持别名的；
 
 在自己书写delete语法时候，语句如下：
